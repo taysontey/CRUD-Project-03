@@ -13,6 +13,7 @@ namespace Projeto.Entity.Entities
         public virtual string Apelido { get; set; }
         public virtual string Posicao { get; set; }
         public virtual DateTime DataNascimento { get; set; }
+        public int IdTime { get; set; }
 
         #region Relacionamentos
 
