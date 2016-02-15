@@ -108,6 +108,24 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Projeto.Application\Projeto.Application.csproj">
+      <Project>{334d29ed-c751-4fdc-a88a-763b08d3647f}</Project>
+      <Name>Projeto.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Projeto.Domain\Projeto.Domain.csproj">
+      <Project>{70d814ff-d429-4878-a134-bb75c4113051}</Project>
+      <Name>Projeto.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Projeto.Entity\Projeto.Entity.csproj">
+      <Project>{b0ae0047-3e52-4613-a58c-22cd702ae144}</Project>
+      <Name>Projeto.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Projeto.InfraEstructure\Projeto.InfraEstructure.csproj">
+      <Project>{4640dc49-969b-4fb0-9a3c-6b9ac81c4ba4}</Project>
+      <Name>Projeto.InfraEstructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
