@@ -11,8 +11,13 @@ namespace Projeto.Domain.Services
     public abstract class DomainServiceBase<TEntity> : IDomainServiceBase<TEntity>
         where TEntity : class
     {
+        //Se comunicando com o projeto.infraestructure
         private IRepositoryBase<TEntity> repositorio;
 
+        public DomainServiceBase(IRepositoryBase<TEntity> repositorio)
+        {
+            this.repositorio = repositorio;
+        }
 
         public void Cadastrar(TEntity obj)
         {

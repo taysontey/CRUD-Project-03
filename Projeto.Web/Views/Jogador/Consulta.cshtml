@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "Consulta";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@section javascript{
+
+    <script type="text/javascript">
+
+        $(document).ready(
+            function () {
+
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "/Jogador/Consultar",
+                        success: function (lista) {
+
+                            if (lista[0] != null) {
+
+                                var dados = "";
+
+                                for (var i = 0; i < lista.length; i++) {
+
+                                    dados += "<tr>";
+                                    dados += "<td align='center'>" + lista[i].IdJogador + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Nome + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Apelido + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Posicao + "</td>";
+                                    dados += "<td align='center'>" + lista[i].DataNascimento + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Time + "</td>";
+                                    dados += "<td>" + '<button class="btn-link" onclick="editFunction(\'' + lista[i].IdJogador + '\')">' + " Editar" + "</button>" + " " +
+                                                        '<button class="btn-link" onclick="deleteFunction(\'' + lista[i].IdJogador + '\');" >' + " Excluir" + "</button>" + "</td>";
+                                    dados += "</tr>";
+                                }
+
+                                $("#lista_jogadores tbody").empty();
+                                $("#lista_jogadores tbody").append(dados);
+                            }
+                        },
+                        error: function (e) {
+                            $("#mensagem_jogador").html(e.status);
+                        }
+                    });
+            })
+
+        function deleteFunction(id) {
+
+            var Model = {
+
+                IdJogador: id
+            }
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Jogador/Excluir",
+                    data: Model,
+                    success: function (msg) {
+
+                        $("#mensagem_jogador").html(msg);
+
+                        window.setTimeout(
+                                        function () {
+                                            location.reload()
+                                        }, 3000)
+
+                    },
+                    error: function (e) {
+                        $("#mensagem_jogador").html(e.status);
+                    }
+                });
+        }
+
+        function editFunction(id) {
+
+            //Formatação dos campos "DateTime".
+            function formatData(jsonDateString) {
+                var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                var localData = data.toLocaleDateString();
+                return localData;
+            }
+
+            $('#janela_edicao').modal('show');
+
+            //Carregando o dropdown de times para edição.
+            $.ajax(
+                    {
+                        type: "POST",
+                        url: "/Jogador/CarregarTimes",
+                        success: function (lista) {
+
+                            $("#DropDownTime").append("<option value=''>" + "Escolha um Time..." + "</option>");
+
+                            for (var i = 0; i < lista.length; i++) {
+                                $("#DropDownTime").append("<option value=" + lista[i].IdTime + ">" + lista[i].Nome + "</option>");
+                            }
+                        },
+                        error: function (e) {
+
+                            $("#mensagem_jogador").html(e.status);
+                        }
+
+                    });
+
+            var Model = {
+
+                IdJogador: id
+            }
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Jogador/Editar",
+                    data: Model,
+                    success: function (lista) {
+
+                        $("#jogador_id").val(lista.IdJogador);
+                        $("#jogador_nome").val(lista.Nome);
+                        $("#jogador_apelido").val(lista.Apelido);
+                        $("#jogador_posicao").val(lista.Posicao);
+                        $("#jogador_datanascimento").val(formatData(lista.DataNascimento));
+                        $("#DropDownTime").val(lista.IdTime);
+                    },
+
+                    error: function (e) {
+                        $("#mensagem_jogador").html(e.status);
+                    }
+                });
+
+            $("#btnedicao_jogador").click(
+                function () {
+
+                    var Model = {
+
+                        IdJogador: $("#jogador_id").val(),
+                        Nome: $("#jogador_nome").val(),
+                        Apelido: $("#jogador_apelido").val(),
+                        Posicao: $("#jogador_posicao").val(),
+                        DataNascimento: $("#jogador_datanascimento").val(),
+                        IdTime: document.getElementById("DropDownTime").value
+                    }
+
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "/Jogador/Edicao",
+                            data: Model,
+                            success: function (msg) {
+
+                                $('#janela_edicao').modal('hide');
+                                $("#mensagem_jogador").html(msg);
+
+                                window.setTimeout(
+                                        function () {
+                                            location.reload()
+                                        }, 3000)
+                            },
+                            error: function (e) {
+                                $("#mensagem_jogador").html(e.status);
+                            }
+                        })
+                })
+        }
+    </script>
+}
+
+<div class="container" style="text-align:center">
+    <h3>Lista de Jogadores</h3>
+    <br />
+</div>
+
+<div class="container">
+
+    <table id="lista_jogadores" class="table table-hover" style="text-align:center">
+        <thead>
+            <tr>
+                <th style="text-align:center">
+                    Código
+                </th>
+                <th style="text-align:center">
+                    Nome
+                </th>
+                <th style="text-align:center">
+                    Apelido
+                </th>
+                <th style="text-align:center">
+                    Posição
+                </th>
+                <th style="text-align:center">
+                    Data de Nascimento
+                </th>
+                <th style="text-align:center">
+                    Time
+                </th>
+                <th style="text-align:center">
+                    Opções
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="info">
+                <td align="center">Não há dados para exibir.</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <span id="mensagem_jogador"></span>
+
+</div>
+
+<div id="janela_edicao" class="modal fade">
+    <div class="modal-dialog">
+        <div class="col-md-12">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <h3>Edição de Jogadores</h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Código:</label>
+                    <input type="text" id="jogador_id" class="form-control" readonly />
+
+                    <label>Nome:</label>
+                    <input type="text" id="jogador_nome" class="form-control" />
+                    <br />
+
+                    <label>Apelido:</label>
+                    <input type="text" id="jogador_apelido" class="form-control" />
+                    <br />
+
+                    <label>Posição:</label>
+                    <input type="text" id="jogador_posicao" class="form-control" />
+                    <br />
+
+                    <label>Data de Nascimento:</label>
+                    <input type="text" id="jogador_datanascimento" class="form-control" onblur="(this.type='text')" onfocus="(this.type='date')" />
+                    <br />
+
+                    <label>Selecione o time:</label>
+                    <select id="DropDownTime"></select>
+                    <br />
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button id="btnedicao_jogador" class="btn-link">
+                        Salvar
+                    </button>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

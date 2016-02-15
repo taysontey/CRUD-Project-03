@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Projeto.Web.App_Start;
 
 namespace Projeto.Web
 {
@@ -13,6 +14,9 @@ namespace Projeto.Web
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            //Ativa o Ninject
+            DependencyResolver.SetResolver(new NinjectDependencyResolver());
         }
     }
 }

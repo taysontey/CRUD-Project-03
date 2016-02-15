@@ -1,0 +1,211 @@
+﻿
+@{
+    ViewBag.Title = "Consulta";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@section javascript{
+
+    <script type="text/javascript">
+
+        $(document).ready(
+            function () {
+
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "/Time/Consultar",
+                        success: function (lista) {
+
+                            if (lista[0] != null) {
+
+                                var dados = "";
+
+                                for (var i = 0; i < lista.length; i++) {
+
+                                    dados += "<tr>";
+                                    dados += "<td align='center'>" + lista[i].IdTime + "</td>";
+                                    dados += "<td align='center'>" + lista[i].Nome + "</td>";
+                                    dados += "<td align='center'>" + lista[i].DataFundacao + "</td>";
+                                    dados += "<td>" + '<button class="btn-link" onclick="editFunction(\'' + lista[i].IdTime + '\')">' + " Editar" + "</button>" + " " +
+                                                        '<button class="btn-link" onclick="deleteFunction(\'' + lista[i].IdTime + '\');" >' + " Excluir" + "</button>" + "</td>";
+                                    dados += "</tr>";
+                                }
+
+                                $("#lista_time tbody").empty();
+                                $("#lista_time tbody").append(dados);
+                            }
+                        },
+                        error: function (e) {
+                            $("#mensagem_time").html(e.status);
+                        }
+                    });
+            });
+
+        function deleteFunction(id) {
+
+            var Model = {
+
+                IdTime: id
+            }
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Time/Excluir",
+                    data: Model,
+                    success: function (msg) {
+
+                        $("#mensagem_time").html(msg);
+
+                        window.setTimeout(
+                                        function () {
+                                            location.reload()
+                                        }, 3000)
+
+                    },
+                    error: function (e) {
+                        $("#mensagem_time").html(e.status);
+                    }
+                });
+        }
+
+        function editFunction(id) {
+
+            //Formatação dos campos "DateTime".
+            function formatData(jsonDateString) {
+                var data = new Date(parseInt(jsonDateString.replace('/Date(', '')));
+                var localData = data.toLocaleDateString();
+                return localData;
+            }
+
+            $('#janela_edicao').modal('show');
+
+            var Model = {
+
+                IdTime: id
+            }
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Time/Editar",
+                    data: Model,
+                    success: function (lista) {
+
+                        $("#time_id").val(lista.IdTime);
+                        $("#time_nome").val(lista.Nome);
+                        $("#time_fundacao").val(formatData(lista.DataFundacao));
+
+                    },
+                    error: function (e) {
+                        $("#mensagem_time").html(e.status);
+                    }
+                });
+
+            $("#btnedicao_time").click(
+                function () {
+
+                    var Model = {
+
+                        IdTime: $("#time_id").val(),
+                        Nome: $("#time_nome").val(),
+                        DataFundacao: $("#time_fundacao").val()
+
+                    }
+
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "/Time/Edicao",
+                            data: Model,
+                            success: function (msg) {
+
+                                $('#janela_edicao').modal('hide');
+                                $("#mensagem_time").html(msg);
+
+                                window.setTimeout(
+                                        function () {
+                                            location.reload()
+                                        }, 3000)
+                            },
+                            error: function (e) {
+                                $("#mensagem_time").html(e.status);
+                            }
+                        })
+                })
+        }
+    </script>
+}
+
+<div class="container" style="text-align:center">
+    <h3>Lista de Times</h3>
+    <br />
+</div>
+
+<div class="container">
+
+    <table id="lista_time" class="table table-hover" style="text-align:center">
+        <thead>
+            <tr>
+                <th style="text-align:center">
+                    Código
+                </th>
+                <th style="text-align:center">
+                    Nome
+                </th>
+                <th style="text-align:center">
+                    Data de Fundação
+                </th>
+                <th style="text-align:center">
+                    Opções
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="info">
+                <td align="center">Não há dados para exibir.</td>
+            </tr>
+        </tbody>
+
+    </table>
+    <span id="mensagem_time"></span>
+</div>
+
+<div id="janela_edicao" class="modal fade">
+    <div class="modal-dialog">
+        <div class="col-md-12">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info" style="text-align:center">
+                    <h3>Edição de Times</h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <label>Código:</label>
+                    <input type="text" id="time_id" class="form-control" readonly />
+
+                    <label>Nome:</label>
+                    <input type="text" id="time_nome" class="form-control" />
+                    <br />
+
+                    <label>Data de Fundação:</label>
+                    <input type="text" id="time_fundacao" class="form-control" onblur="(this.type='text')" onfocus="(this.type='date')" />
+                    <br />
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button id="btnedicao_time" class="btn-link">
+                        Salvar
+                    </button>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

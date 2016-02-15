@@ -11,6 +11,13 @@ namespace Projeto.Domain.Services
 {
     public class DomainServiceTime : DomainServiceBase<Time>, IDomainServiceTime
     {
+        //Se comunicando com o projeto.infraestructure
         private IRepositoryTime repositorio;
+
+        public DomainServiceTime(IRepositoryTime repositorio)
+            : base(repositorio)
+        {
+            this.repositorio = repositorio;
+        }
     }
 }

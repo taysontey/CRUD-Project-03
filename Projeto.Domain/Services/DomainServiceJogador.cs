@@ -11,6 +11,13 @@ namespace Projeto.Domain.Services
 {
     public class DomainServiceJogador : DomainServiceBase<Jogador>, IDomainServiceJogador
     {
-        private IRepositoryTime repositorio;
+        //Se comunicando com o projeto.infraestructure
+        private IRepositoryJogador repositorio;
+
+        public DomainServiceJogador(IRepositoryJogador repositorio)
+            : base(repositorio)
+        {
+            this.repositorio = repositorio;
+        }
     }
 }

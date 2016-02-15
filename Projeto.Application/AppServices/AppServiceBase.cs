@@ -11,8 +11,13 @@ namespace Projeto.Application.AppServices
     public abstract class AppServiceBase<TEntity> : IAppServiceBase<TEntity>
         where TEntity : class
     {
-
+        //Se comunicando com o projeto.domain
         private IDomainServiceBase<TEntity> dominio;
+
+        public AppServiceBase(IDomainServiceBase<TEntity> dominio)
+        {
+            this.dominio = dominio;
+        }
 
         public void Cadastrar(TEntity obj)
         {

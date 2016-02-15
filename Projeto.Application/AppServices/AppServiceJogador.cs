@@ -12,5 +12,11 @@ namespace Projeto.Application.AppServices
     public class AppServiceJogador : AppServiceBase<Jogador>, IAppServiceJogador
     {
         private IDomainServiceJogador dominio;
+
+        public AppServiceJogador(IDomainServiceJogador dominio)
+            : base(dominio)
+        {
+            this.dominio = dominio;
+        }
     }
 }
