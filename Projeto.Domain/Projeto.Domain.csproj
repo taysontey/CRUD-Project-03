@@ -42,7 +42,13 @@
     <Compile Include="Contracts\Repository\IRepositoryBase.cs" />
     <Compile Include="Contracts\Repository\IRepositoryJogador.cs" />
     <Compile Include="Contracts\Repository\IRepositoryTime.cs" />
+    <Compile Include="Contracts\Services\IDomainServiceBase.cs" />
+    <Compile Include="Contracts\Services\IDomainServiceJogador.cs" />
+    <Compile Include="Contracts\Services\IDomainServiceTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DomainServiceBase.cs" />
+    <Compile Include="Services\DomainServiceJogador.cs" />
+    <Compile Include="Services\DomainServiceTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Projeto.Entity\Projeto.Entity.csproj">

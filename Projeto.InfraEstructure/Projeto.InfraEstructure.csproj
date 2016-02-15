@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,23 +49,28 @@
   <ItemGroup>
     <Compile Include="Configuration\JogadorConfiguration.cs" />
     <Compile Include="Configuration\TimeConfiguration.cs" />
+    <Compile Include="DataSource\Conexao.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\RepositoryBase.cs" />
+    <Compile Include="Repository\RepositoryJogador.cs" />
+    <Compile Include="Repository\RepositoryTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Projeto.Domain\Projeto.Domain.csproj">
+      <Project>{70d814ff-d429-4878-a134-bb75c4113051}</Project>
+      <Name>Projeto.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Projeto.Entity\Projeto.Entity.csproj">
       <Project>{b0ae0047-3e52-4613-a58c-22cd702ae144}</Project>
       <Name>Projeto.Entity</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataSource\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Repository\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
