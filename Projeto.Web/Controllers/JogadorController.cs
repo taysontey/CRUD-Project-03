@@ -90,7 +90,7 @@ namespace Projeto.Web.Controllers
                     model.Apelido = j.Apelido;
                     model.Posicao = j.Posicao;
                     model.DataNascimento = j.DataNascimento;
-                    model.IdTime = j.Time.IdTime;
+                    model.IdTime = j.IdTime;
                 }
 
                 return Json(model);
@@ -111,9 +111,7 @@ namespace Projeto.Web.Controllers
                 j.Apelido = model.Apelido;
                 j.Posicao = model.Posicao;
                 j.DataNascimento = model.DataNascimento;
-
-                j.Time = new Time();
-                j.Time.IdTime = model.IdTime;
+                j.IdTime = model.IdTime;
 
                 appJogador.Atualizar(j);
 
