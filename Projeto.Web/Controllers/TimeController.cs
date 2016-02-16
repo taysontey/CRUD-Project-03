@@ -46,5 +46,92 @@ namespace Projeto.Web.Controllers
                 return Json(e.Message);
             }
         }
+
+        public JsonResult Editar(TimeModelEdicao model)
+        {
+            try
+            {
+                Time t = appTime.ObterPorID(model.IdTime);
+
+                if (t != null)
+                {
+                    model.Nome = t.Nome;
+                    model.DataFundacao = t.DataFundacao;
+                }
+
+                return Json(model);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        public JsonResult Edicao(TimeModelEdicao model)
+        {
+            try
+            {
+                Time t = new Time();
+                t.IdTime = model.IdTime;
+                t.Nome = model.Nome;
+                t.DataFundacao = model.DataFundacao;
+
+                appTime.Atualizar(t);
+
+                return Json("Time editado com sucesso, atualizando...");
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        public JsonResult Consultar()
+        {
+            try
+            {
+                var list = new List<TimeModelConsulta>();
+
+                foreach (Time t in appTime.ListarTodos())
+                {
+                    var model = new TimeModelConsulta();
+
+                    model.IdTime = t.IdTime;
+                    model.Nome = t.Nome;
+                    model.DataFundacao = t.DataFundacao.ToString("dd/MM/yyyy");
+
+                    list.Add(model);
+                }
+
+                return Json(list);
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        public JsonResult Excluir(TimeModelEdicao model)
+        {
+            try
+            {
+                Time t = appTime.ObterPorID(model.IdTime);
+
+                if (t != null)
+                {
+                    appTime.Excluir(t);
+
+                    return Json("Time excluído, atualizando...");
+                }
+                else
+                {
+                    return Json("Time não encontrado.");
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
     }
 }
