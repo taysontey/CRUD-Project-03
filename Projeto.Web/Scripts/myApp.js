@@ -1,7 +1,8 @@
 ﻿var myApp = angular.module('myApp', []);
 
-myApp.controller('listarTimes', function ($scope, $http) {
+myApp.controller('timeCtrl', function ($scope, $http) {
 
+    $scope.msg = "";
     $scope.times = "";
 
     $http.get("/Time/Consultar")
@@ -9,6 +10,18 @@ myApp.controller('listarTimes', function ($scope, $http) {
         $scope.times = lista;
     })
     .error(function (msg) {
-        console.log(msg);
+        $scope.msg = msg;
     });
+
+
+    $scope.cadastrar = function (time)
+    {
+        $http.post("/Time/Cadastrar", { model: time })
+        .success(function (msg) {
+            $scope.msg = msg;
+        })
+        .error(function (msg) {
+            $scope.msg = msg;
+        });
+    }
 })

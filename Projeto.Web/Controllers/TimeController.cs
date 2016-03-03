@@ -29,6 +29,7 @@ namespace Projeto.Web.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult Cadastrar(TimeModelCadastro model)
         {
             try

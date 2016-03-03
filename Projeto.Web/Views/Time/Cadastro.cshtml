@@ -4,70 +4,31 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-@section javascript{
-
-    <script type="text/javascript">
-
-        $(document).ready(
-            function () {
-
-                $("#btncadastro_time").click(
-                    function () {
-
-                        var Model = {
-
-                            Nome: $("#time_nome").val(),
-                            DataFundacao: $("#time_fundacao").val()
-
-                        };
-
-                        $.ajax(
-                            {
-                                type: "POST",
-                                url: "/Time/Cadastrar",
-                                data: Model,
-                                success: function (msg) {
-
-                                    $("#mensagem_time").html(msg);
-
-                                },
-                                error: function (e) {
-
-                                    $("#mensagem_time").html(e.status);
-
-                                }
-
-                            })
-                    })
-            })
-    </script>
-}
-
-<div class="container">
+<div class="container" data-ng-app="myApp" data-ng-controller="timeCtrl">
 
     <div class="form-horizontal">
 
         <div class="form-group">
             <label class="control-label col-md-2">Nome:</label>
             <div class="col-md-5">
-                <input type="text" class="form-control" id="time_nome" />
+                <input type="text" class="form-control" name="time.Nome" data-ng-model="time.Nome" />
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Data de Fundação:</label>
             <div class="col-md-2">
-                <input type="date" class="form-control" id="time_fundacao" />
+                <input type="date" class="form-control" name="time.DataFundacao" data-ng-model="time.DataFundacao" />
             </div>
         </div>
         <hr />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button class="btn btn-default" id="btncadastro_time">Cadastrar Time</button>
+                <button class="btn btn-default" name="btnCadastrar" data-ng-click="cadastrar(time)">Cadastrar Time</button>
             </div>
         </div>
-        <span id="mensagem_time"></span>
+        <span>{{msg}}</span>
     </div>
 </div>
 
