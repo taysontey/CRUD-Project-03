@@ -30,14 +30,17 @@
         </thead>
 
         <tbody>
-            <tr data-ng-repeat="t in times">
-                <td>{{t.IdTime}}</td>
-                <td>{{t.Nome}}</td>
-                <td>{{t.DataFundacao}}</td>
+            <tr data-ng-repeat="time in times">
+                <td>{{time.IdTime}}</td>
+                <td>{{time.Nome}}</td>
+                <td>{{time.DataFundacao}}</td>
+                <td>
+                <button class="btn-link" name="btnExcluir" data-ng-click="excluir(time)">Excluir</button>
+                </td>
             </tr>
         </tbody>
 
     </table>
-    <span id="mensagem_time"></span>
+    <span>{{msg}}</span>
 </div>
 

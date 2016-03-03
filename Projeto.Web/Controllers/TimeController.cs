@@ -112,6 +112,7 @@ namespace Projeto.Web.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult Excluir(TimeModelEdicao model)
         {
             try

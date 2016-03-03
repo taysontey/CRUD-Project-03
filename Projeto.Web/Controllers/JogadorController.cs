@@ -48,7 +48,7 @@ namespace Projeto.Web.Controllers
                     list.Add(model);
                 }
 
-                return Json(list);
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
