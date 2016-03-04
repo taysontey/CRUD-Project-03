@@ -48,7 +48,7 @@ namespace Projeto.Web.Controllers
             }
         }
 
-        public JsonResult Editar(TimeModelEdicao model)
+        public JsonResult Editar(TimeModelConsulta model)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Projeto.Web.Controllers
                 if (t != null)
                 {
                     model.Nome = t.Nome;
-                    model.DataFundacao = t.DataFundacao;
+                    model.DataFundacao = t.DataFundacao.ToString("dd/MM/yyyy");
                 }
 
                 return Json(model);
@@ -68,6 +68,7 @@ namespace Projeto.Web.Controllers
             }
         }
 
+        [HttpPost]
         public JsonResult Edicao(TimeModelEdicao model)
         {
             try
