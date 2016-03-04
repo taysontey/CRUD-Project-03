@@ -32,5 +32,6 @@ namespace Projeto.Web.Models
         public string DataNascimento { get; set; }
         public string Posicao { get; set; }
         public string Time { get; set; }
+        public int IdTime { get; set; }
     }
 }

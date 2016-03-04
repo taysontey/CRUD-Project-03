@@ -51,6 +51,10 @@ myApp.controller('timeCtrl', function ($scope, $http) {
         });
     }
 
+    $scope.cancelar = function () {
+        $scope.display = "display:none";
+    }
+
     $scope.excluir = function (time) {
         $http.post("/Time/Excluir", { model: time })
         .success(function (msg) {
@@ -71,6 +75,8 @@ myApp.controller('jogadorCtrl', function ($scope, $http) {
     $scope.msg = "";
     $scope.times = "";
     $scope.jogadores = "";
+    $scope.jogador = "";
+    $scope.display = "display:none";
 
     $http.get("/Jogador/CarregarTimes")
     .success(function (lista) {
@@ -96,6 +102,35 @@ myApp.controller('jogadorCtrl', function ($scope, $http) {
         .error(function (msg) {
             $scope.msg = msg;
         });
+    }
+
+    $scope.editar = function (jogador) {
+        $http.post("/Jogador/Editar", { model: jogador })
+        .success(function (result) {
+            $scope.display = "display:block";
+            $scope.jogador = result;
+        })
+        .error(function (msg) {
+            $scope.msg = msg;
+        });
+    }
+
+    $scope.atualizar = function (jogador) {
+        $http.post("/Jogador/Edicao", { model: jogador })
+        .success(function (msg) {
+            $scope.msg = msg;
+
+            window.setTimeout(function () {
+                location.reload()
+            }, 3000)
+        })
+        .error(function (msg) {
+            $scope.msg = msg;
+        });
+    }
+
+    $scope.cancelar = function () {
+        $scope.display = "display:none";
     }
 
     $scope.excluir = function (jogador) {
